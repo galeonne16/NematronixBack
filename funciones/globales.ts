@@ -1,4 +1,5 @@
 import { Log } from '../modelos/log';
+import fs from 'fs';
 
 function addZero( i: any ) {
     if ( i < 10 ) {
@@ -56,4 +57,19 @@ export function guardarLog(tipo: string, url: string, usuario: any, email: any, 
     });
 
     return promesa;
+}
+
+export function crearDirectorio(ruta: string) {
+    let promise = new Promise((resolve, reject) => {
+        fs.mkdir(ruta, ( err:any ) => {
+            if ( err ) {
+                console.log(err);
+                reject(err);
+            }
+
+            resolve();
+        });
+    });
+
+    return promise;
 }

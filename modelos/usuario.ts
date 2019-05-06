@@ -20,7 +20,8 @@ export const usuarioSchema: Schema = new Schema ({
     password: { type: String, required: [true, 'El password es requerido'] },
     role: { type: String, enum: rolesValidos, default: 'USER_ROLE' },
     status: { type: String, default: 'inactivo', required: true },
-    fcreate: { type: String, default: fechaActual() }
+    fcreate: { type: String, default: fechaActual() },
+    img: { type: String, required: false }
 }, { collection: 'usuarios'} );
 
 usuarioSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser unico' });

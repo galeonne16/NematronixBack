@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var log_1 = require("../modelos/log");
+var fs_1 = __importDefault(require("fs"));
 function addZero(i) {
     if (i < 10) {
         i = '0' + i;
@@ -49,3 +53,16 @@ function guardarLog(tipo, url, usuario, email, ip, descripcion) {
     return promesa;
 }
 exports.guardarLog = guardarLog;
+function crearDirectorio(ruta) {
+    var promise = new Promise(function (resolve, reject) {
+        fs_1.default.mkdir(ruta, function (err) {
+            if (err) {
+                console.log(err);
+                reject(err);
+            }
+            resolve();
+        });
+    });
+    return promise;
+}
+exports.crearDirectorio = crearDirectorio;

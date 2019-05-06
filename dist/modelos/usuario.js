@@ -18,7 +18,8 @@ exports.usuarioSchema = new mongoose_1.Schema({
     password: { type: String, required: [true, 'El password es requerido'] },
     role: { type: String, enum: rolesValidos, default: 'USER_ROLE' },
     status: { type: String, default: 'inactivo', required: true },
-    fcreate: { type: String, default: globales_1.fechaActual() }
+    fcreate: { type: String, default: globales_1.fechaActual() },
+    img: { type: String, required: false }
 }, { collection: 'usuarios' });
 exports.usuarioSchema.plugin(mongoose_unique_validator_1.default, { message: '{PATH} debe de ser unico' });
 exports.Usuario = mongoose_1.model("Usuario", exports.usuarioSchema);
