@@ -21,4 +21,16 @@ function verificaToken(req, res, next) {
         next();
     });
 }
-exports.default = verificaToken;
+exports.verificaToken = verificaToken;
+function verificaWS(token, callback) {
+    jsonwebtoken_1.verify(token, environment_1.SEED, function (err, decoded) {
+        if (err) {
+            return callback({ ok: false, mensaje: 'Token incorrecto' });
+        }
+        if (decoded.usuario.status !== 'activo') {
+            return callback({ ok: false, mensaje: 'Usuario inactivo' });
+        }
+        callback({ ok: true });
+    });
+}
+exports.verificaWS = verificaWS;

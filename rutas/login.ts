@@ -48,9 +48,9 @@ loginRoutes.post('/', (req: Request, res: Response) => {
         }
 
         const token = jwd.sign( { usuario: usuarioDB }, SEED, { expiresIn: 14400 });
-        
-        usuarioDB.password = 'XD';
 
+        usuarioDB.password = 'XD';
+        
         guardarLog(req.method, req.originalUrl, usuarioDB._id, usuarioDB.email, req.ip, 'Logueo de usuario exitoso');
 
         res.status(200).json({

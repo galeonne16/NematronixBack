@@ -3,7 +3,7 @@ import { IUsuario } from '../interfaces/usuario';
 import { Usuario } from '../modelos/usuario';
 import bcrypt from 'bcrypt';
 import sendEmail from '../funciones/mail';
-import verificaToken from '../middlewares/authentication';
+import { verificaToken } from '../middlewares/authentication';
 import { guardarLog } from '../funciones/globales';
 
 const usuarioRoutes = Router();

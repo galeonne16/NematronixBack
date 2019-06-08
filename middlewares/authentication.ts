@@ -3,7 +3,7 @@ import { verify } from 'jsonwebtoken';
 import { SEED } from '../global/environment';
 
 
-function verificaToken ( req: Request, res: Response, next: NextFunction ) {
+export function verificaToken ( req: Request, res: Response, next: NextFunction ) {
     const token: any = req.headers.authorization;
 
     verify( token, SEED, ( err: any, decoded: any) => {
@@ -27,6 +27,21 @@ function verificaToken ( req: Request, res: Response, next: NextFunction ) {
     });
 }
 
-export default verificaToken;
+export function verificaWS ( token: string, callback: Function ) {
+
+    verify( token, SEED, ( err: any, decoded: any) => {
+        if ( err ) {
+            return callback( { ok: false, mensaje: 'Token incorrecto'} );
+        }
+
+        if ( decoded.usuario.status !== 'activo' ) {
+            return callback( { ok: false, mensaje: 'Usuario inactivo'} );
+        }
+
+        callback( { ok: true } );
+
+    });
+}
+
 
 

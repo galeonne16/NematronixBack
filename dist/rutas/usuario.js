@@ -7,13 +7,13 @@ var express_1 = require("express");
 var usuario_1 = require("../modelos/usuario");
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var mail_1 = __importDefault(require("../funciones/mail"));
-var authentication_1 = __importDefault(require("../middlewares/authentication"));
+var authentication_1 = require("../middlewares/authentication");
 var globales_1 = require("../funciones/globales");
 var usuarioRoutes = express_1.Router();
 //===================================================================
 // Crear usuario
 //===================================================================
-usuarioRoutes.post('/', authentication_1.default, function (req, res) {
+usuarioRoutes.post('/', authentication_1.verificaToken, function (req, res) {
     var body = req.body;
     var admin = req.body.usuario;
     if (admin.role !== 'ADMIN_ROLE') {
@@ -61,7 +61,7 @@ usuarioRoutes.post('/', authentication_1.default, function (req, res) {
 //===================================================================
 // Modificar usuario
 //===================================================================
-usuarioRoutes.put('/', authentication_1.default, function (req, res) {
+usuarioRoutes.put('/', authentication_1.verificaToken, function (req, res) {
     var id = req.headers.id;
     var body = req.body;
     var usuario = req.body.usuario;
@@ -111,7 +111,7 @@ usuarioRoutes.put('/', authentication_1.default, function (req, res) {
 //===================================================================
 // Obtener usuarios
 //===================================================================
-usuarioRoutes.get('/', authentication_1.default, function (req, res) {
+usuarioRoutes.get('/', authentication_1.verificaToken, function (req, res) {
     var admin = req.body.usuario;
     if (admin.role !== 'ADMIN_ROLE') {
         return res.status(401).json({
@@ -145,7 +145,7 @@ usuarioRoutes.get('/', authentication_1.default, function (req, res) {
 //===================================================================
 // Buscar usuarios
 //===================================================================
-usuarioRoutes.post('/buscar', authentication_1.default, function (req, res) {
+usuarioRoutes.post('/buscar', authentication_1.verificaToken, function (req, res) {
     var admin = req.body.usuario;
     if (admin.role !== 'ADMIN_ROLE') {
         return res.status(401).json({
@@ -179,7 +179,7 @@ usuarioRoutes.post('/buscar', authentication_1.default, function (req, res) {
 //===================================================================
 // Eliminar usuario
 //===================================================================
-usuarioRoutes.delete('/', authentication_1.default, function (req, res) {
+usuarioRoutes.delete('/', authentication_1.verificaToken, function (req, res) {
     var id = req.headers.id;
     var admin = req.body.usuario;
     if (admin.role !== 'ADMIN_ROLE') {
@@ -219,7 +219,7 @@ usuarioRoutes.delete('/', authentication_1.default, function (req, res) {
 //===================================================================
 // Activar usuario
 //===================================================================
-usuarioRoutes.put('/activate', authentication_1.default, function (req, res) {
+usuarioRoutes.put('/activate', authentication_1.verificaToken, function (req, res) {
     var id = req.headers.id;
     var admin = req.body.usuario;
     if (admin.role !== 'ADMIN_ROLE') {
