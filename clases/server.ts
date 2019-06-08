@@ -34,8 +34,14 @@ export default class Server {
             //Conectar usuario
             socket.conectarUsuario( cliente, this.io);
 
+            // Desconectar usuario
+            socket.desconectarUsuario( cliente, this.io );
+
             // Identificar usuario
             socket.identificarUsuario( cliente, this.io);
+
+            // pingAlive
+            socket.pingAlive( cliente, this.io);
         });
     }
 

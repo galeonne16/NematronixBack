@@ -9,6 +9,11 @@ exports.desconectarUsuario = function (cliente, io) {
         console.log('Usuario ' + cliente.id + ' desconectado');
     });
 };
+exports.pingAlive = function (cliente, io) {
+    setInterval(function () {
+        io.emit('prueba', 1);
+    }, 1000);
+};
 exports.identificarUsuario = function (cliente, io) {
     cliente.on('datos-usuario', function (payload, callback) {
         var token = payload;

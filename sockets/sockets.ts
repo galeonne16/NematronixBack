@@ -13,6 +13,12 @@ export const desconectarUsuario = ( cliente: Socket, io: socketIO.Server ) => {
     });
 }
 
+export const pingAlive = ( cliente: Socket, io: socketIO.Server ) => {
+    setInterval(() => {
+        io.emit('prueba', 1);
+    },1000);
+}
+
 export const identificarUsuario = ( cliente: Socket, io: socketIO.Server ) => {
     cliente.on('datos-usuario', ( payload, callback: Function ) => {
         let token = payload;
