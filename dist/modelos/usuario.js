@@ -7,7 +7,7 @@ var mongoose_1 = require("mongoose");
 var mongoose_unique_validator_1 = __importDefault(require("mongoose-unique-validator"));
 var globales_1 = require("../funciones/globales");
 var rolesValidos = {
-    values: ['ADMIN_ROLE', 'USER_ROLE'],
+    values: ['ADMIN_ROLE', 'USER_ROLE', 'SUDO_ROLE'],
     message: '{VALUE} no es un rol permitido'
 };
 exports.usuarioSchema = new mongoose_1.Schema({

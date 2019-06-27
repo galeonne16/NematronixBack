@@ -4,6 +4,7 @@ import { SEED } from '../global/environment';
 import jwd from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { guardarLog } from '../funciones/globales';
+import { Menu } from '../modelos/menu';
 
 const loginRoutes = Router();
 
@@ -53,13 +54,44 @@ loginRoutes.post('/', (req: Request, res: Response) => {
         
         guardarLog(req.method, req.originalUrl, usuarioDB._id, usuarioDB.email, req.ip, 'Logueo de usuario exitoso');
 
-        res.status(200).json({
-            ok: true,
-            id: usuarioDB._id,
-            token: token,
-            usuario: usuarioDB
+        menu(usuarioDB.role).then((respuesta) => {
+            res.status(200).json({
+                ok: true,
+                id: usuarioDB._id,
+                token: token,
+                usuario: usuarioDB,
+                menu: respuesta
+            });
         });
+
     });
 });
+
+function menu( role: string ) {
+    var menu: any[] = [];
+    return new Promise((resolve, reject) => {
+        if ( role == 'USER_ROLE') {
+            Menu.find({role: role}, 'titulo icono submenu')
+                .exec((err, menuUsuario) => {
+                    if ( err ) {
+                        reject(err);
+                    }
+
+                    resolve(menuUsuario);
+                });
+
+            
+        } else {
+            Menu.find({}, 'titulo icono submenu')
+            .exec((err, menuUsuario) => {
+                if ( err ) {
+                    reject(err);
+                }
+
+                resolve(menuUsuario);
+            });
+        }
+    });
+}
 
 export default loginRoutes;

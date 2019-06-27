@@ -30,7 +30,7 @@ function verificaWS(token, callback) {
         if (decoded.usuario.status !== 'activo') {
             return callback({ ok: false, mensaje: 'Usuario inactivo' });
         }
-        callback({ ok: true });
+        callback({ ok: true, usuario: decoded.usuario });
     });
 }
 exports.verificaWS = verificaWS;

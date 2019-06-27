@@ -38,7 +38,7 @@ export function verificaWS ( token: string, callback: Function ) {
             return callback( { ok: false, mensaje: 'Usuario inactivo'} );
         }
 
-        callback( { ok: true } );
+        callback( { ok: true, usuario: decoded.usuario } );
 
     });
 }

@@ -9,6 +9,7 @@ var environment_1 = require("../global/environment");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var globales_1 = require("../funciones/globales");
+var menu_1 = require("../modelos/menu");
 var loginRoutes = express_1.Router();
 //===================================================================
 // login de usuario
@@ -47,12 +48,38 @@ loginRoutes.post('/', function (req, res) {
         var token = jsonwebtoken_1.default.sign({ usuario: usuarioDB }, environment_1.SEED, { expiresIn: 14400 });
         usuarioDB.password = 'XD';
         globales_1.guardarLog(req.method, req.originalUrl, usuarioDB._id, usuarioDB.email, req.ip, 'Logueo de usuario exitoso');
-        res.status(200).json({
-            ok: true,
-            id: usuarioDB._id,
-            token: token,
-            usuario: usuarioDB
+        menu(usuarioDB.role).then(function (respuesta) {
+            res.status(200).json({
+                ok: true,
+                id: usuarioDB._id,
+                token: token,
+                usuario: usuarioDB,
+                menu: respuesta
+            });
         });
     });
 });
+function menu(role) {
+    var menu = [];
+    return new Promise(function (resolve, reject) {
+        if (role == 'USER_ROLE') {
+            menu_1.Menu.find({ role: role }, 'titulo icono submenu')
+                .exec(function (err, menuUsuario) {
+                if (err) {
+                    reject(err);
+                }
+                resolve(menuUsuario);
+            });
+        }
+        else {
+            menu_1.Menu.find({}, 'titulo icono submenu')
+                .exec(function (err, menuUsuario) {
+                if (err) {
+                    reject(err);
+                }
+                resolve(menuUsuario);
+            });
+        }
+    });
+}
 exports.default = loginRoutes;

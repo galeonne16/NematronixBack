@@ -8,7 +8,7 @@ export interface IUsuarioModel extends IUsuario, Document {
 }
 
 const rolesValidos = {
-    values: ['ADMIN_ROLE', 'USER_ROLE'],
+    values: ['ADMIN_ROLE', 'USER_ROLE', 'SUDO_ROLE'],
     message: '{VALUE} no es un rol permitido'
 }
 
