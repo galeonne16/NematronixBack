@@ -23,19 +23,34 @@ export const identificarUsuario = ( cliente: Socket, io: socketIO.Server ) => {
     cliente.on('datos-usuario', ( payload, callback: Function ) => {
         let token = payload;
 
+        if ( !payload ) {
+            console.log('Sin datos');
+
+            return;
+        }
+
         verificaWS(token, ( data: any ) => {
+            if (!data) {
+                console.log('sin datos');
+            }
+
+            if ( !data.usuario ) {
+                io.to(cliente.id).emit('desconectar');
+            } else {
+                if ( data.usuario.role == 'ADMIN_ROLE' ) {
+                    cliente.join('USER_ROLE');
+                    cliente.join('ADMIN_ROLE');
+                } else {
+                    
+                    cliente.join(data.usuario.role);
+    
+                }
+            }
+
             if ( data.ok !== true ) {
                 io.to(cliente.id).emit('desconectar');
             }
 
-            if ( data.usuario.role == 'ADMIN_ROLE' ) {
-                cliente.join('USER_ROLE');
-                cliente.join('ADMIN_ROLE');
-            } else {
-                
-                cliente.join(data.usuario.role);
-
-            }
 
             console.log(data);
         });

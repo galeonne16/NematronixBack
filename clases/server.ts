@@ -41,7 +41,7 @@ export default class Server {
             socket.identificarUsuario( cliente, this.io);
 
             // pingAlive
-            socket.pingAlive( cliente, this.io);
+            // socket.pingAlive( cliente, this.io);
         });
     }
 

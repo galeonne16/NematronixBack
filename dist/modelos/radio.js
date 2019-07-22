@@ -9,6 +9,8 @@ exports.radioSchema = new mongoose_1.Schema({
     serie: { type: String, required: [true, 'La serie es obligatoria'] },
     tipo: { type: String, required: [true, 'El tipo de equipo es obligatorio'] },
     fijo: { type: Boolean },
+    ubicacion: { type: String },
+    instalado: { type: String },
     vehiculo: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Vehiculo' },
     id: { type: Number }
 });

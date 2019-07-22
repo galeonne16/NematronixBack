@@ -20,11 +20,13 @@ var usuario_1 = __importDefault(require("./rutas/usuario"));
 var login_1 = __importDefault(require("./rutas/login"));
 var uploads_1 = __importDefault(require("./rutas/uploads"));
 var menu_1 = __importDefault(require("./rutas/menu"));
+var vehiculo_1 = __importDefault(require("./rutas/vehiculo"));
 // Rutas de servicios
 server.app.use('/login', login_1.default);
 server.app.use('/usuario', usuario_1.default);
 server.app.use('/uploads', uploads_1.default);
 server.app.use('/menu', menu_1.default);
+server.app.use('/vehiculo', vehiculo_1.default);
 // Conexion a base de datos
 mongoose_1.default.connect("mongodb://" + environment_1.DB_URL, { useCreateIndex: true, useNewUrlParser: true }, function (err) {
     if (err)

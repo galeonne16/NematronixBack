@@ -45,7 +45,7 @@ loginRoutes.post('/', function (req, res) {
                 mensaje: 'Usuario o contraseña invalidos'
             });
         }
-        var token = jsonwebtoken_1.default.sign({ usuario: usuarioDB }, environment_1.SEED, { expiresIn: 14400 });
+        var token = jsonwebtoken_1.default.sign({ usuario: usuarioDB }, environment_1.SEED, { expiresIn: 3600 });
         usuarioDB.password = 'XD';
         globales_1.guardarLog(req.method, req.originalUrl, usuarioDB._id, usuarioDB.email, req.ip, 'Logueo de usuario exitoso');
         menu(usuarioDB.role).then(function (respuesta) {

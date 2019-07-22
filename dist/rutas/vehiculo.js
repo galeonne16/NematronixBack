@@ -28,7 +28,8 @@ vehRoutes.post('/', authentication_1.verificaToken, function (req, res) {
     var vehiculo = new vehiculo_1.Vehiculo({
         tipo: body.tipo,
         siglas: body.siglas,
-        adscripcion: body.adscripcion
+        sitio: body.sitio,
+        ubicacion: body.ubicacion
     });
     vehiculo.save(function (err, vehGuardado) {
         if (err) {
@@ -71,10 +72,79 @@ vehRoutes.get('/', authentication_1.verificaToken, function (req, res) {
 //===================================================================
 // Modificar vehiculo
 //===================================================================
-vehRoutes.put('/', authentication_1.verificaToken, function (req, res) {
+vehRoutes.put('/:id', authentication_1.verificaToken, function (req, res) {
+    var id = req.params.id;
+    var body = req.body;
+    var usuario = req.body.usuario;
+    if (usuario.role !== 'ADMIN_ROLE') {
+        return res.status(500).json({
+            ok: false,
+            mensaje: 'Necesitas permisos de administrador para registrar vehiculos'
+        });
+    }
+    vehiculo_1.Vehiculo.findByIdAndUpdate(id, body, { new: true }, function (err, vehActualizado) {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                mensaje: 'Error en base de datos al actualizar vehiculo'
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            mensaje: 'Vehiculo actualizado correctamente',
+            vehiculo: vehActualizado
+        });
+    });
 });
 //===================================================================
 // Eliminar vehiculo
 //===================================================================
 vehRoutes.delete('/', authentication_1.verificaToken, function (req, res) {
 });
+//===================================================================
+// Buscar vehiculo por id
+//===================================================================
+vehRoutes.get('/buscar/:id', authentication_1.verificaToken, function (req, res) {
+    var id = req.params.id;
+    vehiculo_1.Vehiculo.findById(id, function (err, vehiculo) {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                mensaje: 'Error al buscar vehiculo',
+                err: err
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            mensaje: 'Vehiculo encontrado',
+            vehiculo: vehiculo
+        });
+    });
+});
+//===================================================================
+// Buscar vehiculo por id
+//===================================================================
+vehRoutes.post('/buscar', authentication_1.verificaToken, function (req, res) {
+    var termino = req.body.termino;
+    var regex = new RegExp(termino, 'i');
+    vehiculo_1.Vehiculo.find({ $or: [{ tipo: regex }, { siglas: regex }, { sitio: regex }, { ubicacion: regex }] }).exec(function (err, vehEncontrado) {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                mensaje: 'Error en base de datos',
+                err: err
+            });
+        }
+        if (vehEncontrado.length === 0) {
+            return res.status(404).json({
+                ok: false,
+                mensaje: 'No hay resultados para esta busqueda'
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            resultados: vehEncontrado
+        });
+    });
+});
+exports.default = vehRoutes;

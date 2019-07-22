@@ -20,6 +20,7 @@ import usuarioRoutes from './rutas/usuario';
 import loginRoutes from './rutas/login';
 import uploadRoutes from './rutas/uploads';
 import menuRoutes from './rutas/menu';
+import vehRoutes from './rutas/vehiculo';
 
 // Rutas de servicios
 
@@ -27,6 +28,7 @@ server.app.use('/login', loginRoutes);
 server.app.use('/usuario', usuarioRoutes);
 server.app.use('/uploads', uploadRoutes);
 server.app.use('/menu', menuRoutes);
+server.app.use('/vehiculo', vehRoutes)
 
 // Conexion a base de datos
 mongoose.connect(`mongodb://${ DB_URL }`, {useCreateIndex: true, useNewUrlParser: true}, (err) => {

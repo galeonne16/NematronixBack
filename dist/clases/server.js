@@ -41,7 +41,7 @@ var Server = /** @class */ (function () {
             // Identificar usuario
             socket.identificarUsuario(cliente, _this.io);
             // pingAlive
-            socket.pingAlive(cliente, _this.io);
+            // socket.pingAlive( cliente, this.io);
         });
     };
     Server.prototype.start = function (callback) {

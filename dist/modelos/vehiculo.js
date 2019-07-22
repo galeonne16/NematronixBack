@@ -8,7 +8,8 @@ var mongoose_unique_validator_1 = __importDefault(require("mongoose-unique-valid
 exports.vehiculoSchema = new mongoose_1.Schema({
     tipo: { type: String, required: [true, 'El tipo de vehiculo es obligatorio'] },
     siglas: { type: String, unique: true, required: [true, 'Las placas o siglas son obligatorias'] },
-    adscripcion: { type: String, required: false }
+    sitio: { type: String, required: true },
+    ubicacion: { type: String, required: true }
 });
 exports.vehiculoSchema.plugin(mongoose_unique_validator_1.default, { message: '{PATH} debe de ser unico' });
 exports.Vehiculo = mongoose_1.model('Vehiculo', exports.vehiculoSchema);

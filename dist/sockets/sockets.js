@@ -18,16 +18,28 @@ exports.pingAlive = function (cliente, io) {
 exports.identificarUsuario = function (cliente, io) {
     cliente.on('datos-usuario', function (payload, callback) {
         var token = payload;
+        if (!payload) {
+            console.log('Sin datos');
+            return;
+        }
         authentication_1.verificaWS(token, function (data) {
-            if (data.ok !== true) {
+            if (!data) {
+                console.log('sin datos');
+            }
+            if (!data.usuario) {
                 io.to(cliente.id).emit('desconectar');
             }
-            if (data.usuario.role == 'ADMIN_ROLE') {
-                cliente.join('USER_ROLE');
-                cliente.join('ADMIN_ROLE');
-            }
             else {
-                cliente.join(data.usuario.role);
+                if (data.usuario.role == 'ADMIN_ROLE') {
+                    cliente.join('USER_ROLE');
+                    cliente.join('ADMIN_ROLE');
+                }
+                else {
+                    cliente.join(data.usuario.role);
+                }
+            }
+            if (data.ok !== true) {
+                io.to(cliente.id).emit('desconectar');
             }
             console.log(data);
         });

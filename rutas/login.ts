@@ -48,7 +48,7 @@ loginRoutes.post('/', (req: Request, res: Response) => {
             });
         }
 
-        const token = jwd.sign( { usuario: usuarioDB }, SEED, { expiresIn: 14400 });
+        const token = jwd.sign( { usuario: usuarioDB }, SEED, { expiresIn: 3600 });
 
         usuarioDB.password = 'XD';
         
