@@ -19,7 +19,7 @@
     "@types/node": "^11.13.4",
     "@types/nodemailer": "^4.6.7",
     "@types/socket.io": "^2.1.2",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
